@@ -1,6 +1,6 @@
 // src/config/config.ts
 import { Request, Response } from "express";
-import bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import UserSchema from "../models/userSchema";
 import CourseSchema from "../models/courseSchema";

@@ -4,10 +4,40 @@ services:
     container_name: mongodb
     ports:
       - "27017:27017"
-    env_file:
-      - .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=trainifyAdminCsi401
+      - MONGO_INITDB_DATABASE=Trainify
     volumes:
       - mongo_data:/data/db
+
+  client:
+    build:
+      context: ./Client
+    working_dir: /app # กำหนด working directory เป็น /app ภายใน container
+    volumes:
+      - ./Client:/src # คัดลอกไฟล์จากโฟลเดอร์ Client ไปที่ /app ภายใน container
+    ports:
+      - "5173:5173"
+    command: yarn dev
+    env_file:
+      - .env
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: ./Server
+    working_dir: /app # กำหนด working directory เป็น /app ภายใน container
+    volumes:
+      - ./Server:/app # คัดลอกไฟล์จากโฟลเดอร์ Server ไปที่ /app ภายใน container
+    ports:
+      - "3000:3000"
+    command: yarn dev # ใช้ yarn dev หรือคำสั่งที่เหมาะสมกับ server
+    env_file:
+      - .env
+    depends_on:
+      - mongo
 
 volumes:
   mongo_data:

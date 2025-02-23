@@ -5,9 +5,11 @@ WORKDIR /app
 
 # ติดตั้ง dependencies
 COPY package*.json ./
-RUN yarn install
 
-# ติดตั้ง nodemon และ ts-node สำหรับโหมดพัฒนา
+RUN rm -rf node_modules
+
+RUN yarn install
+RUN yarn add bcryptjs
 RUN yarn add -D ts-node nodemon
 
 # คัดลอกโค้ดทั้งหมดไปยังคอนเทนเนอร์
