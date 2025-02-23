@@ -18,24 +18,31 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('verify tooling') {
+            steps {
+                sh '''
+                    docker version
+                    docker info
+                    docker compose version
+                    curl --version
+                    jq --version
+                '''
+            }
+        }
+        stage('Prune Docker data') {
+            steps {
+                sh 'docker system prune -a --volumes -f'
+                    
+            }
+        }
+        stage('Start container') {
             steps {
                 script {
                     print "Building Docker images..."
                     // ใช้ docker-compose เพื่อ build Docker image
-                    sh 'docker-compose -f docker-compose.yml build'
+                    sh 'docker-compose up -d'
+                    sh 'docker compose ps'
                     print "Docker image build completed."
-                }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                script {
-                    print "Deploying Docker containers..."
-                    // ใช้ docker-compose เพื่อรัน container
-                    sh 'docker-compose -f docker-compose.yml up -d'
-                    print "Docker containers are running."
                 }
             }
         }
