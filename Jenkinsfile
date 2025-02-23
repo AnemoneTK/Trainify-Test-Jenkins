@@ -1,42 +1,55 @@
 pipeline {
     agent any
-    stages{
+    stages {
         stage('Clone') {
-            steps{
-                print "Clone"
-                checkout([
-                        $class : 'GitSCM',
-                        branches : [[name : '*/main']],
-                        userRemoteConfigs :[[
-                            credentialsId : '76fb8aa3-686a-47ae-863a-772e8e12c160',
-                            url : 'https://github.com/AnemoneTK/Trainify-Test-Jenkins.git'
+            steps {
+                script {
+                    print "Cloning repository..."
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: '*/main']],
+                        userRemoteConfigs: [[
+                            credentialsId: '76fb8aa3-686a-47ae-863a-772e8e12c160',
+                            url: 'https://github.com/AnemoneTK/Trainify-Test-Jenkins.git'
                         ]]
                     ])
-                print "Clone Success"
-            }
-        }
-        stage('Build') {
-            steps {
-                print "Building Docker image..."
-                // script {
-                //     bat "docker build -t csi403-frontend ."
-                //     print "Docker Build Image Success"
-                // }
-                // print "Docker Image to Running Container"
-                // script {
-                //     bat "docker rm -f csi403-frontend-run || true"
-                //     bat "docker run -d --name csi403-frontend-run -p 54100:3000 csi403-frontend:latest"
-                //     print " Docker Image to Running Container Success"
-                // }
+                    print "Repository cloned successfully."
+                }
             }
         }
 
-       
-        stage('Testing') {
+        stage('Build') {
             steps {
-                print "Test"
+                script {
+                    print "Building Docker images..."
+                    // ใช้ docker-compose เพื่อ build Docker image
+                    sh 'docker-compose -f docker-compose.yml build'
+                    print "Docker image build completed."
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    print "Deploying Docker containers..."
+                    // ใช้ docker-compose เพื่อรัน container
+                    sh 'docker-compose -f docker-compose.yml up -d'
+                    print "Docker containers are running."
+                }
             }
         }
     }
-}
 
+    post {
+        always {
+            echo 'Pipeline execution finished.'
+        }
+        success {
+            echo 'Build and deployment successful.'
+        }
+        failure {
+            echo 'Build or deployment failed.'
+        }
+    }
+}
