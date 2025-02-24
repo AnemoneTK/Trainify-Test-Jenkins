@@ -1,13 +1,13 @@
 pipeline {
     agent any
-    environment {
-        // ระบุ path ของไฟล์ docker-compose.yml
-        DOCKER_COMPOSE_FILE = "docker-compose.yml"
-    }
+    // environment {
+    //     // ระบุ path ของไฟล์ docker-compose.yml
+    //     DOCKER_COMPOSE_FILE = "docker-compose.yml"
+    // }
 
     stages {
         stage('Clone Repository') {
-              steps{
+            steps{
                 print "Cloning repository..."
                 checkout([
                         $class : 'GitSCM',
@@ -20,37 +20,37 @@ pipeline {
                 print "Clone Success"
             }
         }
-         stage('Check Docker Compose Version') {
-            steps {
-                script {
-                    echo "Checking Docker Compose version..."
-                    sh 'docker-compose --version'
-                }
-            }
-        }
+        //  stage('Check Docker Compose Version') {
+        //     steps {
+        //         script {
+        //             echo "Checking Docker Compose version..."
+        //             sh 'docker-compose --version'
+        //         }
+        //     }
+        // }
 
-        stage('Build') {
-            steps {
-                script {
-                    echo "Current directory: ${pwd()}"
-                    echo "Listing files:"
-                    sh 'ls -l'
-                    echo "Building Docker image..."
-                    // เพิ่ม flag --no-cache เพื่อหลีกเลี่ยงการใช้ cache ในการ build
-                    sh "docker-compose -f ${env.DOCKER_COMPOSE_FILE} build --no-cache"
-                    echo "Docker image build complete."
-                }
-            }
-        }
+        // stage('Build') {
+        //     steps {
+        //         script {
+        //             echo "Current directory: ${pwd()}"
+        //             echo "Listing files:"
+        //             sh 'ls -l'
+        //             echo "Building Docker image..."
+        //             // เพิ่ม flag --no-cache เพื่อหลีกเลี่ยงการใช้ cache ในการ build
+        //             sh "docker-compose -f ${env.DOCKER_COMPOSE_FILE} build --no-cache"
+        //             echo "Docker image build complete."
+        //         }
+        //     }
+        // }
 
-        stage('Deploy') {
-            steps {
-                script {
-                    // ใช้คำสั่ง docker-compose เพื่อ deploy container
-                    sh "docker compose -f ${env.DOCKER_COMPOSE_FILE} up -d"
-                }
-            }
-        }
+        // stage('Deploy') {
+        //     steps {
+        //         script {
+        //             // ใช้คำสั่ง docker-compose เพื่อ deploy container
+        //             sh "docker compose -f ${env.DOCKER_COMPOSE_FILE} up -d"
+        //         }
+        //     }
+        // }
     }
     post {
         always {
