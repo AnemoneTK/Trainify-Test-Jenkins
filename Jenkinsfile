@@ -26,7 +26,7 @@ pipeline {
                 script {
                     echo "Checking Docker Compose version..."
                     sh '''
-                        dicker --version
+                        docker --version
                         docker-compose --version
                         docker compose --version
                     '''
