@@ -22,6 +22,15 @@ pipeline {
                 }
             }
         }
+         stage('Check Docker Compose Version') {
+            steps {
+                script {
+                    echo "Checking Docker Compose version..."
+                    // ตรวจสอบ Docker Compose เวอร์ชัน
+                    sh 'docker-compose --version'
+                }
+            }
+        }
 
          stage('Build') {
             steps {
@@ -30,11 +39,13 @@ pipeline {
                     echo "Listing files:"
                     sh 'ls -l'
                     echo "Building Docker image..."
-                    sh "docker-compose -f ${env.DOCKER_COMPOSE_FILE} build"
+                    // เพิ่ม flag --no-cache เพื่อหลีกเลี่ยงการใช้ cache ในการ build
+                    sh "docker-compose -f ${env.DOCKER_COMPOSE_FILE} build --no-cache"
                     echo "Docker image build complete."
                 }
             }
         }
+
 
         stage('Deploy') {
             steps {
