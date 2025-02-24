@@ -44,7 +44,7 @@ pipeline {
                     sh 'ls -l'
                     echo "Building Docker image..."
                     // เพิ่ม flag --no-cache เพื่อหลีกเลี่ยงการใช้ cache ในการ build
-                    sh "docker-compose -f ${env.DOCKER_COMPOSE_FILE} build --no-cache"
+                    sh "docker compose -f ${env.DOCKER_COMPOSE_FILE} build --no-cache"
                     echo "Docker image build complete."
                 }
             }
