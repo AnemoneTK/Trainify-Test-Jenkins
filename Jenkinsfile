@@ -43,8 +43,10 @@ pipeline {
                     echo "Listing files:"
                     sh 'ls -l'
                     echo "Building Docker image..."
-                    // เพิ่ม flag --no-cache เพื่อหลีกเลี่ยงการใช้ cache ในการ build
-                    sh "docker compose -f ${env.DOCKER_COMPOSE_FILE} build --no-cache"
+                    sh '''
+                        export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+                        docker-compose -f ${env.DOCKER_COMPOSE_FILE} build --no-cache
+                    '''
                     echo "Docker image build complete."
                 }
             }
@@ -53,8 +55,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    // ใช้คำสั่ง docker-compose เพื่อ deploy container
-                    sh "docker compose -f ${env.DOCKER_COMPOSE_FILE} up -d"
+                    sh '''
+                        export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+                        docker-compose -f ${env.DOCKER_COMPOSE_FILE} up -d
+                    '''
                 }
             }
         }
