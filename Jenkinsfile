@@ -21,14 +21,15 @@ pipeline {
                 print "Clone Success"
             }
         }
-         stage('Check Docker Compose Version') {
+        stage('Check Docker Version') {
             steps {
                 script {
-                    echo "Checking Docker Compose version..."
+                    echo "Checking Docker version..."
+                    // เพิ่ม path สำหรับ Docker ที่ติดตั้งผ่าน Homebrew
                     sh '''
+                        export PATH="/usr/local/bin:$PATH"
                         docker --version
                         docker-compose --version
-                        docker compose --version
                     '''
                 }
             }
