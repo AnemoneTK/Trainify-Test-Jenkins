@@ -23,38 +23,32 @@ pipeline {
             }
         }
 
-        stage('Build Docker Containers') {
+         stage('Build') {
             steps {
                 script {
-                    print "Building Docker containers using docker-compose..."
-                    // ใช้ docker-compose ในการ build containers ตามที่กำหนดใน docker-compose.yml
-                    sh 'docker-compose -f ${DOCKER_COMPOSE_FILE} build'
-                    print "Docker build completed successfully."
+                    // ใช้คำสั่ง docker-compose เพื่อ build container จากไฟล์ docker-compose.yml
+                    sh "docker-compose -f ${env.DOCKER_COMPOSE_FILE} build"
                 }
             }
         }
-
-        stage('Deploy Docker Containers') {
+        stage('Deploy') {
             steps {
                 script {
-                    print "Deploying Docker containers..."
-                    // ใช้ docker-compose เพื่อเริ่ม container
-                    sh 'docker-compose -f ${DOCKER_COMPOSE_FILE} up -d'
-                    print "Docker containers are up and running."
+                    // ใช้คำสั่ง docker-compose เพื่อ deploy container
+                    sh "docker-compose -f ${env.DOCKER_COMPOSE_FILE} up -d"
                 }
             }
         }
     }
-
     post {
         always {
-            echo 'Pipeline execution finished.'
+            echo 'Pipeline finished!'
         }
         success {
-            echo 'Docker containers built and deployed successfully.'
+            echo 'Build and deploy completed successfully!'
         }
         failure {
-            echo 'Build or deployment failed.'
+            echo 'Build or deploy failed!'
         }
     }
 }
