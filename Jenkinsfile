@@ -27,7 +27,7 @@ pipeline {
                     echo "Checking Docker version..."
                     // เพิ่ม path สำหรับ Docker ที่ติดตั้งผ่าน Homebrew
                     sh '''
-                        export PATH="/usr/local/bin:$PATH"
+                        export PATH="/opt/homebrew/bin:$PATH"
                         docker --version
                         docker-compose --version
                     '''
