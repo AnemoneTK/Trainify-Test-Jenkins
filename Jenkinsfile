@@ -13,7 +13,8 @@ pipeline {
                         $class : 'GitSCM',
                         branches : [[name : '*/main']],
                         userRemoteConfigs :[[
-                            credentialsId: 'c6b18afc-c59c-488d-8e79-cc9b5250bad7',
+                            credentialsId: '76fb8aa3-686a-47ae-863a-772e8e12c160',
+                            // credentialsId: 'c6b18afc-c59c-488d-8e79-cc9b5250bad7',
                             url: 'https://github.com/AnemoneTK/Trainify-Test-Jenkins.git'
                         ]]
                     ])
