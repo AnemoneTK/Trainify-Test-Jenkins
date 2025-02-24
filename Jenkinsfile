@@ -19,6 +19,8 @@ pipeline {
                         ]]
                     ])
                     echo "Repository cloned successfully."
+                    echo "Current directory: ${pwd()}"
+                    sh 'git status'  // ตรวจสอบสถานะของ repository
                 }
             }
         }
@@ -26,7 +28,6 @@ pipeline {
             steps {
                 script {
                     echo "Checking Docker Compose version..."
-                    // ตรวจสอบ Docker Compose เวอร์ชัน
                     sh 'docker-compose --version'
                 }
             }
