@@ -9,16 +9,16 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 script {
-                    print "Cloning repository..."
+                    echo "Cloning repository..."
                     checkout([
                         $class: 'GitSCM',
                         branches: [[name: '*/main']],
                         userRemoteConfigs: [[
-                            credentialsId: '76fb8aa3-686a-47ae-863a-772e8e12c160',
+                            credentialsId: 'c6b18afc-c59c-488d-8e79-cc9b5250bad7',
                             url: 'https://github.com/AnemoneTK/Trainify-Test-Jenkins.git'
                         ]]
                     ])
-                    print "Repository cloned successfully."
+                    echo "Repository cloned successfully."
                 }
             }
         }
