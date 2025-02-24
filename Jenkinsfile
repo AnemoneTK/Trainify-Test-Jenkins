@@ -7,21 +7,17 @@ pipeline {
 
     stages {
         stage('Clone Repository') {
-            steps {
-                script {
-                    echo "Cloning repository..."
-                    checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: '*/main']],
-                        userRemoteConfigs: [[
+              steps{
+                print "Cloning repository..."
+                checkout([
+                        $class : 'GitSCM',
+                        branches : [[name : '*/main']],
+                        userRemoteConfigs :[[
                             credentialsId: 'c6b18afc-c59c-488d-8e79-cc9b5250bad7',
                             url: 'https://github.com/AnemoneTK/Trainify-Test-Jenkins.git'
                         ]]
                     ])
-                    echo "Repository cloned successfully."
-                    echo "Current directory: ${pwd()}"
-                    sh 'git status'  // ตรวจสอบสถานะของ repository
-                }
+                print "Clone Success"
             }
         }
          stage('Check Docker Compose Version') {
@@ -33,7 +29,7 @@ pipeline {
             }
         }
 
-         stage('Build') {
+        stage('Build') {
             steps {
                 script {
                     echo "Current directory: ${pwd()}"
@@ -46,7 +42,6 @@ pipeline {
                 }
             }
         }
-
 
         stage('Deploy') {
             steps {
