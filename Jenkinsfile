@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     // ใช้คำสั่ง docker-compose เพื่อ build container จากไฟล์ docker-compose.yml
-                    sh "docker-compose -f ${env.DOCKER_COMPOSE_FILE} build"
+                    sh "docker compose -f ${env.DOCKER_COMPOSE_FILE} build"
                 }
             }
         }
@@ -35,7 +35,7 @@ pipeline {
             steps {
                 script {
                     // ใช้คำสั่ง docker-compose เพื่อ deploy container
-                    sh "docker-compose -f ${env.DOCKER_COMPOSE_FILE} up -d"
+                    sh "docker compose -f ${env.DOCKER_COMPOSE_FILE} up -d"
                 }
             }
         }
