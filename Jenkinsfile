@@ -26,11 +26,16 @@ pipeline {
          stage('Build') {
             steps {
                 script {
-                    // ใช้คำสั่ง docker-compose เพื่อ build container จากไฟล์ docker-compose.yml
-                    sh "docker compose -f ${env.DOCKER_COMPOSE_FILE} build"
+                    echo "Current directory: ${pwd()}"
+                    echo "Listing files:"
+                    sh 'ls -l'
+                    echo "Building Docker image..."
+                    sh "docker-compose -f ${env.DOCKER_COMPOSE_FILE} build"
+                    echo "Docker image build complete."
                 }
             }
         }
+
         stage('Deploy') {
             steps {
                 script {
