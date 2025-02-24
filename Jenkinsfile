@@ -1,9 +1,9 @@
 pipeline {
     agent any
-    // environment {
-    //     // ระบุ path ของไฟล์ docker-compose.yml
-    //     DOCKER_COMPOSE_FILE = "docker-compose.yml"
-    // }
+    environment {
+        // ระบุ path ของไฟล์ docker-compose.yml
+        DOCKER_COMPOSE_FILE = "docker-compose.yml"
+    }
 
     stages {
         stage('Clone Repository') {
@@ -42,7 +42,6 @@ pipeline {
                     echo "Current directory: ${pwd()}"
                     echo "Listing files:"
                     sh 'ls -l'
-                    sh 'export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"'
                     echo "Building Docker image..."
                     // เพิ่ม flag --no-cache เพื่อหลีกเลี่ยงการใช้ cache ในการ build
                     sh "docker-compose -f ${env.DOCKER_COMPOSE_FILE} build --no-cache"
