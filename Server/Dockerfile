@@ -10,8 +10,8 @@ RUN rm -rf node_modules
 
 RUN yarn install
 RUN yarn add bcryptjs
-RUN yarn add -D ts-node
-RUN yarn add nodemon
+RUN yarn add ts-node @types/node --dev
+RUN yarn add nodemon ts-node --dev
 
 # คัดลอกโค้ดทั้งหมดไปยังคอนเทนเนอร์
 COPY . .
