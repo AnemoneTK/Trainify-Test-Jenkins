@@ -3,12 +3,13 @@ FROM node:18
 
 WORKDIR /app
 
-# ติดตั้ง dependencies
+# คัดลอก package.json และ package-lock.json (หรือ yarn.lock) มาติดตั้ง dependencies
 COPY package*.json ./
 
-RUN rm -rf node_modules
-
+# ติดตั้ง dependencies ทั้งหมด
 RUN yarn install
+
+# ติดตั้งเพิ่มเติม
 RUN yarn add bcryptjs
 RUN yarn add ts-node @types/node --dev
 RUN yarn add nodemon ts-node --dev
